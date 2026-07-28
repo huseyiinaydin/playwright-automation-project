@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    tools {
-        // Eğer Jenkins'te NodeJs eklentisi tanımlıysa kullanır, değilse sistemdeki node'u alır
-        nodejs 'node' 
-    }
-
     stages {
         stage('Checkout') {
             steps {
