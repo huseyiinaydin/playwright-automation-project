@@ -28,7 +28,6 @@ pipeline {
 
     post {
         always {
-            // Test sonuçları ne olursa olsun HTML Raporunu Jenkins'e Yükle
             publishHTML(target: [
                 allowMissing: false,
                 alwaysLinkToLastBuild: true,
