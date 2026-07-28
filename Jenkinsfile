@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        // macOS M1/M2/M3/M4 için Homebrew ve sistem Node/npm yolları:
+        PATH = "/opt/homebrew/bin:/usr/local/bin:${env.PATH}"
+    }
+
     stages {
         stage('Checkout') {
             steps {
