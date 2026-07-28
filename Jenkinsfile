@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        // macOS M1/M2/M3/M4 için Homebrew ve sistem Node/npm yolları:
-        PATH = "/opt/homebrew/bin:/usr/local/bin:${env.PATH}"
+        // wheee npm komutunun verdiği konumu ve olası tüm node yollarını ekliyoruz
+        PATH = "/Users/huseyinaydin/.nvm/versions/node/v20.0.0/bin:/opt/homebrew/bin:/usr/local/bin:${env.PATH}"
     }
 
     stages {
