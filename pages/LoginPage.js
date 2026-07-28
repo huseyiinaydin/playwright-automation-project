@@ -1,32 +1,30 @@
 // pages/LoginPage.js
-class LoginPage {
+import { BasePage } from './BasePage';
+
+export class LoginPage extends BasePage {
   /**
    * @param {import('@playwright/test').Page} page
    */
   constructor(page) {
-    this.page = page;
-    
-    // 1. Elemanların konumlandırıcıları (Locators)
+    super(page);
+    // Locator'lar constructor içinde tanımlanır
     this.usernameInput = page.locator('#username');
     this.passwordInput = page.locator('#password');
-    this.submitButton = page.locator('button[type="submit"]');
-    this.flashMessage = page.locator('#flash');
+    this.loginButton = page.locator('button[type="submit"]');
+    this.errorMessage = page.locator('.error-message');
   }
 
-  // 2. Sayfada yapılabilecek eylemler (Actions / Methods)
-  async navigate() {
-    await this.page.goto('https://the-internet.herokuapp.com/login');
+  async goto() {
+    await this.navigateTo('/login');
   }
 
   async login(username, password) {
     await this.usernameInput.fill(username);
     await this.passwordInput.fill(password);
-    await this.submitButton.click();
+    await this.loginButton.click();
   }
 
-  async getFlashText() {
-    return await this.flashMessage.innerText();
+  async getErrorMessageText() {
+    return await this.errorMessage.textContent();
   }
 }
-
-module.exports = { LoginPage };
