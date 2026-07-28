@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     environment {
-        // Node ve Npm'in yer alabileceği tüm sistem yollarını ekliyoruz
         PATH = "/opt/homebrew/bin:/usr/local/bin:${env.PATH}"
     }
 
@@ -29,7 +28,17 @@ pipeline {
 
     post {
         always {
-            echo 'Test koşumu tamamlandı.'
+            // Test sonuçları ne olursa olsun HTML Raporunu Jenkins'e Yükle
+            publishHTML(target: [
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'playwright-report',
+                reportFiles: 'index.html',
+                reportName: 'Playwright HTML Report',
+                reportTitles: 'Playwright Test Sonuçları'
+            ])
+            echo 'Test koşumu ve raporlama tamamlandı.'
         }
     }
 }
