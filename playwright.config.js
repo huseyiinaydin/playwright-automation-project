@@ -10,6 +10,7 @@ module.exports = defineConfig({
   ],
   use: {
     headless: false,  // Tarayıcının gözümüzün önünde açılması için 'false' yaptık
+    baseURL: 'https://the-internet.herokuapp.com', // Ya da test ettiğin sitenin ana adresi
     launchOptions: {
       slowMo: 1000,   // Adımları rahatça izleyebilmek için her eylemi 600ms yavaşlatıyoruz
     },
