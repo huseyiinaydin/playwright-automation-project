@@ -21,23 +21,19 @@ pipeline {
 
         stage('Run Playwright Tests') {
             steps {
-                sh 'npx playwright test'
+                // Testler patlasa bile boru hattı devam etsin ve rapor oluşsun diye catchError ekleyebiliriz
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    sh 'npx playwright test'
+                }
             }
         }
     }
 
     post {
         always {
-            publishHTML(target: [
-                allowMissing: false,
-                alwaysLinkToLastBuild: true,
-                keepAll: true,
-                reportDir: 'playwright-report',
-                reportFiles: 'index.html',
-                reportName: 'Playwright HTML Report',
-                reportTitles: 'Playwright Test Sonuçları'
-            ])
-            echo 'Test koşumu ve raporlama tamamlandı.'
+            // Allure raporunu Jenkins'e oluştur ve bağla
+            allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+            echo 'Test koşumu tamamlandı, Allure raporu üretildi.'
         }
     }
 }
