@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        // Node ve Npm'in yer alabileceği tüm sistem yollarını ekliyoruz
+        PATH = "/opt/homebrew/bin:/usr/local/bin:${env.PATH}"
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -10,14 +15,14 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh '/usr/local/bin/npm install'
-                sh '/usr/local/bin/npx playwright install --with-deps'
+                sh 'npm install'
+                sh 'npx playwright install --with-deps'
             }
         }
 
         stage('Run Playwright Tests') {
             steps {
-                sh '/usr/local/bin/npx playwright test'
+                sh 'npx playwright test'
             }
         }
     }
