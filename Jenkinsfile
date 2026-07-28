@@ -1,30 +1,35 @@
 pipeline {
-    agent {
-        // Playwright'ın resmi Docker imajını kullanarak tüm bağımlılıkları hazır getiriyoruz
-        docker {
-            image 'mcr.microsoft.com/playwright:v1.40.0-focal'
-        }
+    agent any
+
+    tools {
+        // Eğer Jenkins'te NodeJs eklentisi tanımlıysa kullanır, değilse sistemdeki node'u alır
+        nodejs 'node' 
     }
-    
+
     stages {
-        stage('1. Bağımlılıkları Yükle') {
+        stage('Checkout') {
             steps {
-                sh 'npm ci'
+                git branch: 'main', url: 'https://github.com/huseyiinaydin/playwright-automation-project.git'
             }
         }
-        
-        stage('2. Playwright Testlerini Koş') {
+
+        stage('Install Dependencies') {
             steps {
-                // Headless modda tüm testleri çalıştırır
+                sh 'npm install'
+                sh 'npx playwright install --with-deps'
+            }
+        }
+
+        stage('Run Playwright Tests') {
+            steps {
                 sh 'npx playwright test'
             }
         }
     }
-    
+
     post {
         always {
-            // Testler geçse de kalsa da HTML raporunu Jenkins'e çıktı olarak kaydet
-            archiveArtifacts artifacts: 'playwright-report/**/*', fingerprint: true
+            echo 'Test koşumu tamamlandı.'
         }
     }
 }
