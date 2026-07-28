@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        // wheee npm komutunun verdiği konumu ve olası tüm node yollarını ekliyoruz
-        PATH = "/Users/huseyinaydin/.nvm/versions/node/v20.0.0/bin:/opt/homebrew/bin:/usr/local/bin:${env.PATH}"
-    }
-
     stages {
         stage('Checkout') {
             steps {
@@ -15,14 +10,14 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
-                sh 'npx playwright install --with-deps'
+                sh '/usr/local/bin/npm install'
+                sh '/usr/local/bin/npx playwright install --with-deps'
             }
         }
 
         stage('Run Playwright Tests') {
             steps {
-                sh 'npx playwright test'
+                sh '/usr/local/bin/npx playwright test'
             }
         }
     }
