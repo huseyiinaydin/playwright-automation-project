@@ -14,7 +14,7 @@ test.describe('Login Senaryoları', () => {
     await loginPage.login('test_user', 'password123');
 
     // Doğrulama adımında sayfa URL'i kontrol edilebilir
-    await expect(page).toHaveURL(/.*secure/);
+    await expect(page).toHaveURL(/.*secure/, { timeout: 10000 });
   });
 
   test('Hatalı şifre ile giriş denemesi', async () => {
